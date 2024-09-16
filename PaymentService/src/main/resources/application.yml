@@ -1,0 +1,43 @@
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}} # Unique instance ID
+    lease-renewal-interval-in-seconds: 10 # Time interval (in seconds) the instance sends heartbeats to the Eureka server
+    lease-expiration-duration-in-seconds: 30 # Time after which Eureka considers the instance down if no heartbeat
+
+server:
+  port: 9090
+
+spring:
+  application:
+    name: Payment_Service # Your service name in Eureka
+
+# Logging configuration (optional)
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.netflix.eureka: DEBUG # You can change this to TRACE for more detailed logs
+
+# Setting management endpoints (optional)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always # Show full details for /actuator/health
+
+# Timeout and retry policies (optional, adjust according to needs)
+ribbon:
+  eureka:
+    enabled: true # Enable Ribbon integration with Eureka
+  ConnectTimeout: 3000
+  ReadTimeout: 5000
